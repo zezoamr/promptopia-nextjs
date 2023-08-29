@@ -27,6 +27,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+client_secret_654481742444-82ndglm5qj8874joi3ut4890sr6fm5lb.apps.googleusercontent.com.json
 
 # vercel
 .vercel
