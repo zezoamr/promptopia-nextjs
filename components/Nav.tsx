@@ -10,7 +10,7 @@ import { BuiltInProviderType } from '@node_modules/next-auth/providers';
 /*{providers && Object.values(providers).map(Provider => {
   <button type='button' key={Provider.id} onClick={() => signIn(Provider.id)} className='black_btn'> Sign In </button> 
 })}*/
-
+//const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null> (null);
 /*useEffect(() => {
       const fetchProviders  = async () =>{
         const response = await getProviders()
@@ -23,7 +23,7 @@ import { BuiltInProviderType } from '@node_modules/next-auth/providers';
 export default function Nav() {
 
     const {data: session} = useSession();
-    const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null> (null);
+    
     const [toggleDropdown, setToggleDropdown] = useState(false);
     
     return (
@@ -82,7 +82,7 @@ export default function Nav() {
               }
             </div> : 
             <>
-              { <button type='button' key={'google'} onClick={() => signIn('google')} className='black_btn'> Sign In </button> }
+              { <button type='button' key={'google'} onClick={() => signIn('google')} className='black_btn'> Sign In with google </button> }
             </>
           }
         </div>

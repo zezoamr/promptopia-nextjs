@@ -29,6 +29,8 @@ const CreatePrompt = () => {
 
             if (response.ok) {
                 //router.push("/");
+                post.prompt=""
+                post.tag=""
                 setIsSubmittingSucceed(true);
             }
         } catch (error) {
@@ -36,8 +38,6 @@ const CreatePrompt = () => {
             console.log(error);
         } finally {
             setIsSubmitting(false);
-            post.prompt=""
-            post.tag=""
         }
     };
 
