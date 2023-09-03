@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession, getProviders, ClientSafeProvider, LiteralUnion } from 'next-auth/react';
 import { BuiltInProviderType } from '@node_modules/next-auth/providers';
+import { useRouter } from 'next/navigation';
 
 
 /*{providers && Object.values(providers).map(Provider => {
@@ -25,6 +26,11 @@ export default function Nav() {
     const {data: session} = useSession();
     
     const [toggleDropdown, setToggleDropdown] = useState(false);
+
+    const router = useRouter();
+    const handleSignUp = () => {
+      router.push('/signup');
+    };
     
     return (
       <nav className='w-full flex-between mb-16 pt-3'>
@@ -46,6 +52,8 @@ export default function Nav() {
             </div> : 
             <>
               { <button type='button' key={'google'} onClick={() => signIn('google')} className='black_btn'> Sign In with google </button> }
+              { <button type='button' key={'credentials'} onClick={() => signIn('credentials')} className='black_btn'> Sign In with credentials </button> }
+              { <button type='button' key={'sign up credentials'} onClick={handleSignUp} className='black_btn'> Sign up with credentials </button> }
             </>
           }
         </div>
@@ -83,6 +91,8 @@ export default function Nav() {
             </div> : 
             <>
               { <button type='button' key={'google'} onClick={() => signIn('google')} className='black_btn'> Sign In with google </button> }
+              { <button type='button' key={'credentials'} onClick={() => signIn('credentials')} className='black_btn'> Sign In with credentials </button> }
+              { <button type='button' key={'sign up credentials'} onClick={handleSignUp} className='black_btn'> Sign up with credentials </button> }
             </>
           }
         </div>

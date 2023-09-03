@@ -38,7 +38,7 @@ export default function Form({ type, post, setPost, submitting, submittingSuccee
             onChange={(e) => setPost({ ...post, prompt: e.target.value })}
             placeholder='Write your post here'
             required
-            className='form_textarea '
+            className='form_textarea'
           />
         </label>
 
