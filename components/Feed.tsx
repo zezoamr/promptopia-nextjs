@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
 import React from 'react'
 import PromptCard from "./PromptCard";
@@ -24,8 +24,10 @@ function PromptCardList({data, handleTagClick} : {data: any, handleTagClick: Cal
 export default function Feed() {
   const [searchText, setSearchText] = useState<string>('')
   const [allPosts, setAllPosts] = useState([])
+  const [searchedPosts, setSearchedPosts] = useState([])
 
   const handleSearchChange = (e:  ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     setSearchText(e.target.value)
   }
 
@@ -33,21 +35,42 @@ export default function Feed() {
     try {
       const response = await fetch("/api/prompt");
       const data = await response.json();
-      //console.log('data' + JSON.stringify(data))
-
       setAllPosts(data);
     } catch (error) {
       console.log(error)
     }
   }
 
+  const fetchSearchedPosts = useCallback(async (arg: any, addsearchtexttoform: boolean) => {
+    try {
+      if (addsearchtexttoform) {
+        setSearchText(arg)
+      }
+      const response = await fetch("/api/prompt/search/" + arg);
+      const data = await response.json();
+      setSearchedPosts(data);
+      //console.log("searchedposts" + JSON.stringify(searchedPosts))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [searchText])
+
   useEffect(() => {
-    fetchPosts();
+    setSearchText('')
   }, [])
+
+  
+  useEffect(() => {
+    if(searchText.trim() === "") {
+      fetchPosts()
+    } else{
+      fetchSearchedPosts(searchText, false)
+    }
+  }, [fetchSearchedPosts, searchText])
 
   return (
     <section className="feed">
-      <form className="relative w-full flex-center">
+      <form className="relative w-full flex-center" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
           placeholder="search by prompt tag or username"
@@ -59,13 +82,13 @@ export default function Feed() {
       </form>
 
       {/* All Prompts */}
-      {searchText ? (
+      {searchText.trim() === '' ? (
         <PromptCardList
           data={allPosts}
-          handleTagClick={() => {}}
+          handleTagClick={fetchSearchedPosts}
         />
       ) : (
-        <PromptCardList data={allPosts} handleTagClick={() => {}} />
+        <PromptCardList data={searchedPosts} handleTagClick={fetchSearchedPosts} />
       )}
       {/* searched Prompts section*/}
 
